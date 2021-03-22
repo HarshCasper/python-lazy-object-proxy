@@ -1591,7 +1591,7 @@ def test_comp_9(lop):
 
 def test_comp_10(lop):
     async def f():
-        xx = set([1, 2, 3])
+        xx = {1, 2, 3}
         return {x: x for x in xx}
 
     assert run_async(f()) == \
