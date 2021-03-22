@@ -133,7 +133,7 @@ def test_func_4(lop):
             pass
 
     with check():
-        [i for i in coro]
+        list(coro)
 
     coro.close()
 
@@ -157,7 +157,7 @@ def test_func_5(lop):
     # the following should pass without an error
     for el in lop.Proxy(bar):
         assert el == 1
-    assert [el for el in lop.Proxy(bar)] == [1]
+    assert list(lop.Proxy(bar)) == [1]
     assert tuple(lop.Proxy(bar)) == (1,)
     assert next(iter(lop.Proxy(bar))) == 1
 
@@ -1090,7 +1090,7 @@ def test_for_1(lop):
     # Make sure that __aiter__ was called only once
     assert aiter_calls == 2
     assert yielded == [100, 200]
-    assert buffer == [i for i in range(1, 21)] + ['end']
+    assert buffer == list(range(1, 21)) + ['end']
 
     buffer = []
 
@@ -1108,7 +1108,7 @@ def test_for_1(lop):
     # Make sure that __aiter__ was called only once
     assert aiter_calls == 3
     assert yielded == [i * 100 for i in range(1, 11)]
-    assert buffer == [i for i in range(1, 21)] + \
+    assert buffer == list(range(1, 21)) + \
            ['what?', 'end']
 
 
@@ -1570,7 +1570,7 @@ def test_comp_7(lop):
 
 def test_comp_8(lop):
     async def f():
-        return [i for i in [1, 2, 3]]
+        return list([1, 2, 3])
 
     assert run_async(f()) == \
            ([], [1, 2, 3])
@@ -1583,7 +1583,7 @@ def test_comp_9(lop):
 
     async def f():
         l = [i async for i in gen()]
-        return [i for i in l]
+        return list(l)
 
     assert run_async(f()) == \
            ([], [1, 2])
@@ -1591,7 +1591,7 @@ def test_comp_9(lop):
 
 def test_comp_10(lop):
     async def f():
-        xx = {i for i in [1, 2, 3]}
+        xx = set([1, 2, 3])
         return {x: x for x in xx}
 
     assert run_async(f()) == \
