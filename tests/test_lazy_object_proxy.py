@@ -779,7 +779,7 @@ def test_iteration(lop):
 
     wrapper = lop.Proxy(lambda: items)
 
-    result = [x for x in wrapper]
+    result = list(wrapper)
 
     assert result == items
 
